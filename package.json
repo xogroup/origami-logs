@@ -24,7 +24,11 @@
     "nsp": "nsp check",
     "watch": "babel -w src/ -d dist/"
   },
-  "dependencies": {},
+  "dependencies": {
+    "bluebird": "3.5.0",
+    "caporal": "0.7.0",
+    "github-api": "3.0.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-function-bind": "^6.22.0",

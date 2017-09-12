@@ -1,0 +1,15 @@
+{
+  "aliases": {
+    "enhancement": [
+      "feature"
+    ]
+  },
+  "extraLabels": {
+    "chore": "Chores Completed:"
+  },
+  "extras": {
+    "pivotal":{
+      "boardID": "1884777"
+    }
+  }
+}

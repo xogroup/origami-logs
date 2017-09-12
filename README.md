@@ -6,6 +6,14 @@ Just another NPM package that does simply amazing thing.
 
 ## How to use
 
+TO RUN:
+
+```
+npm run generate
+```
+
+
+
 The following is a simple code snippet:
 
 ```js

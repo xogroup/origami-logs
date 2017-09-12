@@ -17,6 +17,8 @@
     "no-console": [
       "error",
       { "allow": [ "info", "log", "error", "warn" ] }
-    ]
+    ],
+    "arrow-body-style": ["error", "always"],
+    "consistent-return": "off"
   }
 }
