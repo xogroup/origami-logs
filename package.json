@@ -1,0 +1,44 @@
+{
+  "name": "github_changelog_generator",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [
+    "github_changelog_generator",
+    "npm",
+    "zumata"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "author": "The Zumata Team <gary.theis@zumata.com>",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "build": "sh ./run-build.sh production",
+    "build:clean": "sh ./run-build.sh clean production",
+    "build:test": "rm -rf dist && babel src/ -d dist/",
+    "check": "npm run lint && npm run nsp",
+    "lint": "eslint ./src",
+    "nsp": "nsp check",
+    "watch": "babel -w src/ -d dist/"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-function-bind": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-minify": "^0.2.0",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.4.1",
+    "eslint-config-zumata": "^0.6.0",
+    "nsp": "^2.7.0"
+  },
+  "engines": {
+    "node": ">= 6.9.1",
+    "npm": ">= 3.10.8"
+  },
+  "private": true
+}
