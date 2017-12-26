@@ -268,45 +268,107 @@ const formatForMarkdown = function formatForMarkdown(changelog) {
     return log;
 };
 
-const writeToFile = function writeToFile(changelog) {
-    fs.writeFile('CHANGELOG.md', changelog, (err) => {
-        console.log(err);
-    });
+const writeToFile = async function writeToFile(changelog) {
+    await fs.writeFile('CHANGELOG.md', changelog);
+};
+
+const genx = async function(comparedBranches, client, repo) {
+    const changelog = {
+        enhancement: [],
+        bug        : []
+    };
+
+    for (const commit of comparedBranches.data.commits) {
+        const searchResult = await client.search().forIssues({ q: commit.sha });
+
+        if (searchResult.data.length) {
+            let commitMessage = commit.commit.message;
+            const multiLine = commitMessage.indexOf('\n');
+
+            if (multiLine > 0) {
+                // We want to strip out the rest of the multiline squashed commits
+                commitMessage = commitMessage.substr(0, multiLine);
+            }
+
+            const { number, labels } = searchResult.data[0];
+
+            let fauxContext = {
+                repo
+            };
+
+            const entry = await Helpers.hydrateCommitEntry.call(fauxContext, commitMessage, number);
+
+            for (const label of labels) {
+                const labelName = Helpers.checkAliasLabels(label.name);
+
+                if (changelog[labelName]) {
+                    if (changelog[labelName].includes(entry)) {
+                        // Prevent duplicate logged entries
+                        // (usually if a commit is tagged with two different labels
+                        // that are aliases of each other)
+                        return;
+                    }
+                    console.log('1 in loop');
+                    changelog[labelName].push(entry);
+                } else {
+                    changelog[labelName] = [];
+                    changelog[labelName].push(entry);
+                }
+            }
+        }
+    }
+    console.log('2 Out of loop');
+
+    return changelog;
 };
 
 
 module.exports = async function exports(client, tags) {
-    const context = {
-        client,
-        tags,
-        repo  : null,
-        issues: null
-    };
-    const [org, repo] = config.github.repo.split('/');
+    // const context = {
+    //     client,
+    //     tags,
+    //     repo  : null,
+    //     issues: null
+    // };
+    let repo;
+    let issues;
+    let comparedBranches;
+    let finalChangeLog;
 
+    const [org, repository] = config.github.repository.split('/');
 
     try {
-        await initializeEndpoints();
-        const commits = await compareBranches();
-        const unformattedChangelog = await generateChangelog(commit);
-    } catch (e) {
+        repo = await client.getRepo(org, repository);
+        issues = await client.getIssues(org, repository);
+        comparedBranches = await repo.compareBranches('v1.2.0', 'HEAD');
+        finalChangeLog = await genx(comparedBranches, client, repo);
 
+        const formattedChangelog = formatChangelog(finalChangeLog);
+        const modifiedLog = checkExtras(formattedChangelog);
+        const payload = formatForMarkdown(modifiedLog);
+
+        await writeToFile(payload);
+    } catch (e) {
+        console.log(e, 'aSOMETHING HAPPENED');
     }
 
-    return Promise
-        .resolve()
-        .bind(context)
-        .then(initializeEndpoints)
-        .then(compareBranches)
-        .then(generateChangelog)
-        .then(formatChangelog)
-        .then(checkExtras)
-        .then(formatForMarkdown)
-        .then(writeToFile)
-        .then(() => {
-            console.log('Changelog generated in CHANGELOG.md');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    // return Promise
+    //     .resolve()
+    //     .bind(context)
+    //     .then(initializeEndpoints)
+    //     .then(compareBranches)
+    //     .then(generateChangelog)
+    //     .then(formatChangelog)
+    //     .then(checkExtras)
+    //     .then(formatForMarkdown)
+    //     .then(writeToFile)
+    //     .then(() => {
+    //         console.log('Changelog generated in CHANGELOG.md');
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     });
+    process.nextTick(function() {
+        console.log(finalChangeLog, 'After next tik');
+    });
 };
