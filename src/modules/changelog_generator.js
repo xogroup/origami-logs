@@ -3,8 +3,10 @@ const fs = require('fs');
 const config = require('../../.changelog-generator-config.json');
 
 const initializeEndpoints = function initializeEndpoints() {
-  this.repo = this.client.getRepo('LocalPartners', 'hapi-marketplace-api-graphql');
-  this.issues = this.client.getIssues('LocalPartners', 'hapi-marketplace-api-graphql');
+  const [org, repo] = config.github.repo.split('/');
+
+  this.repo = this.client.getRepo(org, repo);
+  this.issues = this.client.getIssues(org, repo);
 };
 
 const compareBranches = function compareBranches() {

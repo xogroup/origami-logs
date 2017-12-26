@@ -1,7 +1,8 @@
 {
   "github":{
     "apiUrl": "https://git.somedomain.com/api/v3",
-    "token": "123456"
+    "token": "123456",
+    "repo": "Organization/repo-name"
   },
   "aliases": {
     "enhancement": [
