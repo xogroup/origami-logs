@@ -1,22 +1,24 @@
+'use strict';
 const prog = require('caporal');
 const githubClient = require('./modules/github_client');
 const changelogGenerator = require('./modules/changelog_generator');
 const config = require('../.changelog-generator-config.json');
 
 prog
-  .version('1.0.0')
-  .command('generate', 'Generates the changelog')
-  .option('--github_api <apiUrl>', 'Github API URL (Used with Github Enterprise)')
-  .option('--token <githubToken>', 'Github OAUTH Token')
-  .action((args, options, logger) => {
-    const token = options.token || config.github.token;
-    const githubApi = options.githubApi || config.github.apiUrl || 'https://api.github.com';
+    .version('1.0.0')
+    .command('generate', 'Generates the changelog')
+    .option('--github_api <apiUrl>', 'Github API URL (Used with Github Enterprise)')
+    .option('--token <githubToken>', 'Github OAUTH Token')
+    .action((args, options) => {
+        const token = options.token || config.github.token;
+        const githubApi = options.githubApi || config.github.apiUrl || 'https://api.github.com';
 
-    if (token && githubApi) {
-      const client = githubClient(githubApi, token);
-      changelogGenerator(client);
-    }
-    return 'Configs are not set in command line or in .changelog-generator-config.json';
+        if (token && githubApi) {
+            const client = githubClient(githubApi, token);
+            changelogGenerator(client);
+        }
+
+        return 'Configs are not set in command line or in .changelog-generator-config.json';
 
     // Process to generate changelog
     // 1) Get repo
@@ -31,7 +33,7 @@ prog
     // args and options are objects
     // args = {"app": "myapp", "env": "production"}
     // options = {"tail" : 100}
-  });
+    });
 // you specify arguments using .argument()
 // 'app' is required, 'env' is optional
 // .command('deploy', 'Deploy an application')
