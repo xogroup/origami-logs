@@ -5,7 +5,7 @@ const changelogGenerator = require('./modules/changelog_generator');
 prog
   .version('1.0.0')
   .command('generate', 'Generates the changelog')
-  .option('--github_api <apiUrl>', 'Github API URL (Generally used with Github Enterprise)')
+  .option('--github_api <apiUrl>', 'Github API URL (Used with Github Enterprise)')
   .option('--token <githubToken>', 'Github OAUTH Token')
   .action((args, options, logger) => {
     const client = githubClient(options.githubApi, options.token);

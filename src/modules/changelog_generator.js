@@ -1,7 +1,6 @@
 const Promise = require('bluebird');
 const fs = require('fs');
-const util = require('util');
-const config = require('../../.changelog_generator_config.json');
+const config = require('../../.changelog-generator-config.json');
 
 const initializeEndpoints = function initializeEndpoints() {
   this.repo = this.client.getRepo('LocalPartners', 'hapi-marketplace-api-graphql');

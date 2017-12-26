@@ -14,3 +14,5 @@ dist/**/__tests__/
 logs/**/[^.]*
 node_modules/
 out/
+.changelog
+.changelog-generator-config.json

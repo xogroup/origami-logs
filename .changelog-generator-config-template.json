@@ -1,4 +1,8 @@
 {
+  "github":{
+    "apiUrl": "https://git.somedomain.com/api/v3",
+    "token": "123456"
+  },
   "aliases": {
     "enhancement": [
       "feature"
