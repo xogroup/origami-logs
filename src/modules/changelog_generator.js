@@ -1,12 +1,10 @@
 'use strict';
 
-const Promise = require('bluebird');
 const fs = require('fs');
 const config = require('../../.changelog-generator-config.json');
 const Helpers = require('./helpers');
 
 const writeToFile = function writeToFile(changelog) {
-
     return fs.writeFileSync('CHANGELOG.md', changelog);
 };
 
@@ -17,16 +15,13 @@ const generateChangelog = async function(comparedBranches, client, repo) {
     };
 
     for (const commit of comparedBranches.data.commits) {
-
         const searchResult = await client.search().forIssues({ q: commit.sha });
 
         if (searchResult.data.length) {
-
             let commitMessage = commit.commit.message;
             const multiLine = commitMessage.indexOf('\n');
 
             if (multiLine > 0) {
-
                 commitMessage = commitMessage.substr(0, multiLine);
             }
 
@@ -39,20 +34,15 @@ const generateChangelog = async function(comparedBranches, client, repo) {
             const entry = await Helpers.hydrateCommitEntry.call(fauxContext, commitMessage, number);
 
             for (const label of labels) {
-
                 const labelName = Helpers.checkAliasLabels(label.name);
 
                 if (changelog[labelName]) {
-
                     if (changelog[labelName].includes(entry)) {
-
                         continue;
                     }
 
                     changelog[labelName].push(entry);
-                }
-                else {
-
+                } else {
                     changelog[labelName] = [];
                     changelog[labelName].push(entry);
                 }
@@ -64,14 +54,13 @@ const generateChangelog = async function(comparedBranches, client, repo) {
 };
 
 
-module.exports = async function exports(client, tags) {
-
+module.exports = async function exports(client) {
     const [org, repository] = config.github.repository.split('/');
 
     try {
         // Initialize
         const repo = await client.getRepo(org, repository);
-        const issues = await client.getIssues(org, repository);
+        // const issues = await client.getIssues(org, repository);
 
         // Generate changelog
         const comparedBranches = await repo.compareBranches('v1.2.0', 'HEAD');
@@ -84,7 +73,6 @@ module.exports = async function exports(client, tags) {
 
         // Write file to root of project
         writeToFile(payload);
-
     } catch (e) {
         throw e;
     }
