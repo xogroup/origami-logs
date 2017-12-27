@@ -54,8 +54,9 @@ const generateChangelog = async function(comparedBranches, client, repo) {
 };
 
 
-module.exports = async function exports(client) {
+module.exports = async function exports(client, tags) {
     const [org, repository] = config.github.repository.split('/');
+    const {tag1, tag2} = tags;
 
     try {
         // Initialize
@@ -63,7 +64,8 @@ module.exports = async function exports(client) {
         // const issues = await client.getIssues(org, repository);
 
         // Generate changelog
-        const comparedBranches = await repo.compareBranches('v1.2.0', 'HEAD');
+        console.log(tag2);
+        const comparedBranches = await repo.compareBranches('v1.2.0', tag2);
         const finalChangeLog = await generateChangelog(comparedBranches, client, repo);
 
         // Format

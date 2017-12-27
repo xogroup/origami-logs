@@ -27,6 +27,7 @@
   "dependencies": {
     "bluebird": "3.5.0",
     "caporal": "0.7.0",
+    "git-rev-sync": "1.9.1",
     "github-api": "3.0.0",
     "require-dir": "0.3.2"
   },

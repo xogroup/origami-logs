@@ -5,6 +5,7 @@ const { script, assertions } = Lab;
 const lab = exports.lab = script();
 const { describe, it, after } = lab; //expect
 const config = require('../.changelog-generator-config.json');
+let git = require('git-rev-sync');
 const Hoek = require('hoek');
 const Promise = require('bluebird');
 const Helpers = require('../src/modules/helpers');
@@ -61,6 +62,7 @@ describe('Implementation', () => {
                     }
                 }
             };
+
             config.extras = configExample.extras;
 
             it('adds the pivotal link with the matching story id', () =>{
@@ -121,6 +123,46 @@ describe('Implementation', () => {
             const expected = '\n\n**Features Implemented:**\n* Some commit\n';
 
             Helpers.formatForMarkdown(input).should.deep.equal(expected);
+        });
+    });
+
+    describe('setTags()', () =>{
+        it('sets the tags if they\'re given in firstTag,lastTag format', () =>{
+            const subject = Helpers.setTags(['123', '321']);
+
+            subject.should.deep.equal({
+                tag1: '123',
+                tag2: '321'
+            });
+        });
+
+        it('sets the tag2 to HEAD if it\'s not given', () =>{
+            const subject = Helpers.setTags(['123']);
+
+            subject.should.deep.equal({
+                tag1: '123',
+                tag2: 'HEAD'
+            });
+        });
+
+        it.only('sets the tag1 to the current commit sha if it\'s not given', () =>{
+            const ogGit = Hoek.clone(git);
+
+            after(() =>{
+                git = ogGit;
+            });
+
+
+            git.tag = function() {
+                return 'SOME-SHA';
+            };
+
+            const subject = Helpers.setTags([]);
+
+            subject.should.deep.equal({
+                tag1: 'SOME-SHA',
+                tag2: 'HEAD'
+            });
         });
     });
 });

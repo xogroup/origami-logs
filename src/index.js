@@ -3,22 +3,34 @@ const prog = require('caporal');
 const githubClient = require('./modules/github_client');
 const changelogGenerator = require('./modules/changelog_generator');
 const config = require('../.changelog-generator-config.json');
+const Helpers = require('./modules/helpers');
+
 
 prog
     .version('1.0.0')
     .command('generate', 'Generates the changelog')
     .option('--github_api <apiUrl>', 'Github API URL (Used with Github Enterprise)')
     .option('--token <githubToken>', 'Github OAUTH Token')
-    .action((args, options) => {
+    .option('--tags <tag1>,<tag2>', 'Gets the changelog between the tags. Defaults to the current tag and the HEAD', function(tags) {
+        if (tags === true) {
+            return [];
+        }
+
+        return tags.split(',');
+    })
+    .action((args, options, logger) => {
+        const tags = Helpers.setTags(options.tags);
         const token = options.token || config.github.token;
         const githubApi = options.githubApi || config.github.apiUrl || 'https://api.github.com';
 
         if (token && githubApi) {
             const client = githubClient(githubApi, token);
-            changelogGenerator(client);
+            changelogGenerator(client, tags);
+            logger.info('Changelog Generated as CHANGELOG.md');
+        } else {
+            logger.error('Configs are not set in command line or in .changelog-generator-config.json');
         }
 
-        return 'Configs are not set in command line or in .changelog-generator-config.json';
 
     // Process to generate changelog
     // 1) Get repo
