@@ -14,6 +14,8 @@ const generateChangelog = async function(comparedBranches, client, repo) {
         bug        : []
     };
 
+    console.log('12312', comparedBranches);
+
     for (const commit of comparedBranches.data.commits) {
         const searchResult = await client.search().forIssues({ q: commit.sha });
 
@@ -62,11 +64,11 @@ module.exports = async function exports(client, tags) {
     try {
         // Initialize
         const repo = await client.getRepo(org, repository);
-
         // Get the commits
         const comparedBranches = await repo.compareBranches(tag1, tag2);
 
         //Generate the changelog
+        console.log('GENERATE', comparedBranches);
         const changelog = await generateChangelog(comparedBranches, client, repo);
 
         // Format
@@ -77,7 +79,6 @@ module.exports = async function exports(client, tags) {
         // Write file to root of project
         writeToFile(finalChangelog);
     } catch (e) {
-        console.log(e);
         throw e;
     }
 };
