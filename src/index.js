@@ -19,16 +19,20 @@ prog
         return tags.split(',');
     })
     .action((args, options, logger) => {
-        const tags = Helpers.setTags(options.tags);
-        const token = options.token || config.github.token;
-        const githubApi = options.githubApi || config.github.apiUrl || 'https://api.github.com';
+        try {
+            const tags = Helpers.setTags(options.tags);
+            const token = options.token || config.github.token;
+            const githubApi = options.githubApi || config.github.apiUrl || 'https://api.github.com';
 
-        if (token && githubApi) {
-            const client = githubClient(githubApi, token);
-            changelogGenerator(client, tags);
-            logger.info('Changelog Generated as CHANGELOG.md');
-        } else {
-            logger.error('Configs are not set in command line or in .changelog-generator-config.json');
+            if (token && githubApi) {
+                const client = githubClient(githubApi, token);
+                changelogGenerator(client, tags);
+                logger.info('Changelog Generated as CHANGELOG.md');
+            } else {
+                throw new Error('Configs are not set in command line or in .changelog-generator-config.json');
+            }
+        } catch (e) {
+            logger.error(e.message);
         }
 
 

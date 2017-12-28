@@ -3,9 +3,8 @@
 const Lab = require('lab');
 const { script, assertions } = Lab;
 const lab = exports.lab = script();
-const { describe, it, after } = lab; //expect
+const { describe, it, after, expect } = lab; //expect
 const config = require('../.changelog-generator-config.json');
-let git = require('git-rev-sync');
 const Hoek = require('hoek');
 const Promise = require('bluebird');
 const Helpers = require('../src/modules/helpers');
@@ -145,24 +144,12 @@ describe('Implementation', () => {
             });
         });
 
-        it.only('sets the tag1 to the current commit sha if it\'s not given', () =>{
-            const ogGit = Hoek.clone(git);
-
-            after(() =>{
-                git = ogGit;
-            });
-
-
-            git.tag = function() {
-                return 'SOME-SHA';
+        it('throws an error if the first tag is not given', () =>{
+            const subject = function() {
+                Helpers.setTags(undefined);
             };
 
-            const subject = Helpers.setTags([]);
-
-            subject.should.deep.equal({
-                tag1: 'SOME-SHA',
-                tag2: 'HEAD'
-            });
+            expect(subject).to.throw();
         });
     });
 });

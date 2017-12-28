@@ -21,6 +21,7 @@ const generateChangelog = async function(comparedBranches, client, repo) {
             let commitMessage = commit.commit.message;
             const multiLine = commitMessage.indexOf('\n');
 
+            //Remove everything after the first line
             if (multiLine > 0) {
                 commitMessage = commitMessage.substr(0, multiLine);
             }
@@ -61,21 +62,22 @@ module.exports = async function exports(client, tags) {
     try {
         // Initialize
         const repo = await client.getRepo(org, repository);
-        // const issues = await client.getIssues(org, repository);
 
-        // Generate changelog
-        console.log(tag2);
-        const comparedBranches = await repo.compareBranches('v1.2.0', tag2);
-        const finalChangeLog = await generateChangelog(comparedBranches, client, repo);
+        // Get the commits
+        const comparedBranches = await repo.compareBranches(tag1, tag2);
+
+        //Generate the changelog
+        const changelog = await generateChangelog(comparedBranches, client, repo);
 
         // Format
-        const formattedChangelog = Helpers.formatChangelog(finalChangeLog);
+        const formattedChangelog = Helpers.formatChangelog(changelog);
         const modifiedLog = Helpers.checkExtras(formattedChangelog);
-        const payload = Helpers.formatForMarkdown(modifiedLog);
+        const finalChangelog = Helpers.formatForMarkdown(modifiedLog);
 
         // Write file to root of project
-        writeToFile(payload);
+        writeToFile(finalChangelog);
     } catch (e) {
+        console.log(e);
         throw e;
     }
 };
