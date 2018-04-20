@@ -16,7 +16,7 @@
     "url": ""
   },
   "scripts": {
-    "test": "lab -L -a chai",
+    "test": "lab -L -l -a chai",
     "test-debug": "lab -a code",
     "test-cov-html": "lab -r html -o coverage.html -a chai",
     "lint": "node_modules/.bin/eslint --fix src/ test/",
@@ -36,8 +36,8 @@
     "eslint": "4.14.0",
     "eslint-config-xogroup": "1.0.0",
     "eslint-plugin-xogroup": "2.1.0",
-    "lab": "15.1.2",
-    "nsp": "^2.7.0"
+    "lab": "15.4.1",
+    "nsp": "2.8.1"
   },
   "engines": {
     "node": ">= 6.9.1",

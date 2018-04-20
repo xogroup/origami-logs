@@ -3,7 +3,7 @@
 const Lab = require('lab');
 const { script, assertions } = Lab;
 const lab = exports.lab = script();
-const { describe, it, after, expect } = lab;
+const { describe, it, expect } = lab;
 let githubClient = require('../src/modules/github_client');
 const changelogGenerator = require('../src/modules/changelog_generator');
 // const config = require('../.changelog-generator-config.json');
@@ -31,15 +31,30 @@ describe('Integration', () =>{
     githubClient = {
         getRepo: function() {
             return {
-                compareBranches: function(tag1, tag2) {
-                    data: {
-                        commits: [sampleCommit];
-                    }
+                compareBranches: function() {
+                    return {
+                        data: {
+                            commits: [sampleCommit]
+                        }
+                    };
+                },
+                getPullRequest: function() {
+                    return {};
                 }
             };
-        }};
+        },
+        search: function() {
+            return {
+                forIssues: function() {
+                    return {
+                        data: [{}]
+                    };
+                }
+            };
+        }
+    };
 
-    it.only('generates the CHANGELOG.md file', () =>{
+    it('generates the CHANGELOG.md file', () =>{
         changelogGenerator(githubClient, ['v1.2.1', 'HEAD']);
     });
 });
