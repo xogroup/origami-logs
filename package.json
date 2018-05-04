@@ -1,6 +1,6 @@
 {
   "name": "github_changelog_generator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "keywords": [
     "github_changelog_generator",
@@ -10,7 +10,7 @@
   "homepage": "https://github.com/xogroup",
   "license": "MIT",
   "author": "Nephtali Rodriguez / XO Group",
-  "main": "dist/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": ""
