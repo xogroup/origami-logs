@@ -1,9 +1,10 @@
 'use strict';
 
-const config = require('../../../.changelog-generator-config.json');
+// const config = require('../../../.changelog-generator-config.json');
 
 module.exports = function checkExtras(changelog) {
     const modifiedLog = changelog;
+    const config = this.config;
 
     if (config.extras) {
         if (config.extras.pivotal) {

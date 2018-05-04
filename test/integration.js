@@ -1,18 +1,31 @@
 'use strict';
 
 const Lab = require('lab');
+const fs = require('fs');
+const sinon = require('sinon');
 const { script, assertions } = Lab;
 const lab = exports.lab = script();
-const { describe, it, expect } = lab;
+const { describe, it, expect, before, after } = lab;
 let githubClient = require('../src/modules/github_client');
 const changelogGenerator = require('../src/modules/changelog_generator');
-// const config = require('../.changelog-generator-config.json');
-// const Hoek = require('hoek');
-// const Promise = require('bluebird');
-// const Helpers = require('../src/modules/helpers');
+const config = require('../.changelog-generator-config-template');
+
 assertions.should();
 
 describe('Integration', () =>{
+    const context = {
+        config
+    };
+
+    before(() =>{
+        const writeToFile = sinon.fake.returns(true);
+        sinon.replace(fs, 'writeFileSync', writeToFile);
+    });
+
+    after(() =>{
+        sinon.restore();
+    });
+
     const sampleCommit = {
         sha   : '4be33ee7ba38ee00ec2b3f3d96e0bbba553fbd65',
         commit: {
@@ -39,7 +52,15 @@ describe('Integration', () =>{
                     };
                 },
                 getPullRequest: function() {
-                    return {};
+                    return {
+                        data: {
+                            user: {
+                                url  : 'github.com/justneph',
+                                login: 'justneph'
+                            },
+                            url: 'github.com/project/1234567'
+                        }
+                    };
                 }
             };
         },
@@ -47,14 +68,22 @@ describe('Integration', () =>{
             return {
                 forIssues: function() {
                     return {
-                        data: [{}]
+                        data: [{
+                            name  : 'TEST',
+                            labels: [
+                                { name: 'enhancement' }
+                            ]
+                        }]
                     };
                 }
             };
         }
     };
 
-    it('generates the CHANGELOG.md file', () =>{
-        changelogGenerator(githubClient, ['v1.2.1', 'HEAD']);
+    it('generates the CHANGELOG.md file with the expected changelog', async() =>{
+        const expected = '\n\n**Features Implemented:**\n* [[#1234567]](https://www.pivotaltracker.com/n/projects/1234567/stories/1234567) Adds a fix to properly return the internal mediaSummary … [(#31)](github.com/project/1234567) [justneph](github.com/justneph)\n';
+        await changelogGenerator.call(context, githubClient, ['v1.2.1', 'HEAD']);
+        expect(fs.writeFileSync.called).to.be.true;
+        expect(fs.writeFileSync.lastArg).to.equal(expected);
     });
 });

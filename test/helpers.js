@@ -4,10 +4,10 @@ const Lab = require('lab');
 const { script, assertions } = Lab;
 const lab = exports.lab = script();
 const { describe, it, after, expect } = lab;
-const config = require('../.changelog-generator-config.json');
 const Hoek = require('hoek');
 const Promise = require('bluebird');
 const Helpers = require('../src/modules/helpers');
+const config = require('../.changelog-generator-config-template');
 assertions.should();
 
 describe('Helpers', () => {
@@ -24,7 +24,8 @@ describe('Helpers', () => {
                     }
                 });
             }
-        }
+        },
+        config: config
     };
 
     describe('hydrateCommitEntry()', () => {
@@ -42,7 +43,7 @@ describe('Helpers', () => {
             const inputLabel = 'feature';
             const expectedLabel = 'enhancement';
 
-            Helpers.checkAliasLabels(inputLabel).should.equal(expectedLabel);
+            Helpers.checkAliasLabels.call(context, inputLabel).should.equal(expectedLabel);
         });
     });
 
@@ -76,7 +77,7 @@ describe('Helpers', () => {
                     ]
                 };
 
-                Helpers.checkExtras(input).should.deep.equal(expected);
+                Helpers.checkExtras.call(context, input).should.deep.equal(expected);
             });
         });
     });
@@ -91,8 +92,15 @@ describe('Helpers', () => {
         it('replaces enhancement with default \'Features Implemented\'', () =>{
             const input = { enhancement: ['Some commit here']};
             const expected = { 'Features Implemented:': ['Some commit here']};
-            Helpers.formatChangelog(input).should.deep.equal(expected);
+            Helpers.formatChangelog.call(context, input).should.deep.equal(expected);
         });
+
+        it('replaces bug with default \'Bugs Fixed\'', () =>{
+            const input = { bug: ['Some commit here']};
+            const expected = { 'Bugs Fixed:': ['Some commit here']};
+            Helpers.formatChangelog.call(context, input).should.deep.equal(expected);
+        });
+
 
         describe('with extraLabels set', () =>{
             it('changes extra labels to use given copy', () => {
@@ -101,7 +109,7 @@ describe('Helpers', () => {
                 };
                 const input = { chore: ['Some commit here']};
                 const expected = { 'SOME CHORE': ['Some commit here']};
-                Helpers.formatChangelog(input).should.deep.equal(expected);
+                Helpers.formatChangelog.call(context, input).should.deep.equal(expected);
             });
 
             it('overwrites the default enhancement text', () =>{
@@ -111,7 +119,7 @@ describe('Helpers', () => {
 
                 const input = { enhancement: ['Some commit here']};
                 const expected = { 'NEW FEATURE YO': ['Some commit here']};
-                Helpers.formatChangelog(input).should.deep.equal(expected);
+                Helpers.formatChangelog.call(context, input).should.deep.equal(expected);
             });
         });
     });
@@ -121,13 +129,13 @@ describe('Helpers', () => {
             const input = { 'Features Implemented:': ['Some commit']};
             const expected = '\n\n**Features Implemented:**\n* Some commit\n';
 
-            Helpers.formatForMarkdown(input).should.deep.equal(expected);
+            Helpers.formatForMarkdown.call(context, input).should.deep.equal(expected);
         });
     });
 
     describe('setTags()', () =>{
         it('sets the tags if they\'re given in firstTag,lastTag format', () =>{
-            const subject = Helpers.setTags(['123', '321']);
+            const subject = Helpers.setTags.call(context, ['123', '321']);
 
             subject.should.deep.equal({
                 tag1: '123',
@@ -146,7 +154,7 @@ describe('Helpers', () => {
 
         it('throws an error if no tags are given', () =>{
             const subject = function() {
-                Helpers.setTags(undefined);
+                Helpers.setTags.call(context, undefined);
             };
 
             expect(subject).to.throw();

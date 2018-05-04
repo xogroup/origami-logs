@@ -1,11 +1,12 @@
 'use strict';
 
-const config = require('../../../.changelog-generator-config.json');
+// const config = require('../../../.changelog-generator-config.json');
 const internals = {};
 
 
 module.exports = function formatChangelog(changelog) {
     const extendedChangelog = {};
+    const config = this.config;
 
     const changeTypeDescription = Object.assign(
         {

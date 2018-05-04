@@ -1,8 +1,9 @@
 'use strict';
-const config = require('../../../.changelog-generator-config.json');
+// const config = require('../../../.changelog-generator-config.json');
 
 module.exports = function checkAliasLabels(label) {
     let labelToReturn = '';
+    const config = this.config;
 
     const aliasKeys = Object.keys(config.aliases);
 
