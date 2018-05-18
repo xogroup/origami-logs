@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 const prog = require('caporal');
 const Hoek = require('hoek');

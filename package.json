@@ -45,7 +45,7 @@
     "npm": ">= 3.10.8"
   },
   "bin": {
-    "generate_changelog": "node ./cli.js"
+    "generate_changelog": "./cli.js"
   },
   "private": true
 }
