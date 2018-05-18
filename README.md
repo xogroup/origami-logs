@@ -1,4 +1,4 @@
-# github_changelog_generator
+# Github Changelog Generator
 
 A generator for your release notes.
 
@@ -36,7 +36,7 @@ The file should look something like this:
 TO RUN:
 
 ```
-node src/index.js generate --tags "startingTag,endingTag"
+node lib/index.js generate --tags "startingTag,endingTag"
 ```
 
 ## Config Options Explained

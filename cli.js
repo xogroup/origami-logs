@@ -2,13 +2,13 @@
 const prog = require('caporal');
 const Hoek = require('hoek');
 
-const githubClient = require('./modules/github_client');
-const changelogGenerator = require('./modules/changelog_generator');
-const Helpers = require('./modules/helpers');
+const githubClient = require('./lib/modules/github_client');
+const changelogGenerator = require('./lib/modules/changelog_generator');
+const helpers = require('./lib/modules/helpers');
 
 const requireConfig = () => {
     try {
-        return require('../.changelog-generator-config');
+        return require('./.changelog-generator-config.json');
     } catch (e) {
         return false;
     }
@@ -31,7 +31,7 @@ prog
             const config = requireConfig();
             const token = Hoek.reach(options, 'token') || Hoek.reach(config, 'github.token');
             const githubApi = Hoek.reach(options, 'githubApi') || Hoek.reach(config, 'github.apiUrl') || 'https://api.github.com';
-            const tags = Helpers.setTags(options.tags);
+            const tags = helpers.setTags(options.tags);
             const context = {
                 config
             };
