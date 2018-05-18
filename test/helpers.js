@@ -6,7 +6,7 @@ const lab = exports.lab = script();
 const { describe, it, after, expect } = lab;
 const Hoek = require('hoek');
 const Promise = require('bluebird');
-const Helpers = require('../src/modules/helpers');
+const Helpers = require('../lib/modules/helpers');
 const config = require('../.changelog-generator-config-template');
 assertions.should();
 
