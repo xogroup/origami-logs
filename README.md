@@ -36,7 +36,14 @@ The file should look something like this:
 TO RUN:
 
 ```
-node lib/index.js generate --tags "startingTag,endingTag"
+changelog generate --tags "startingTag,endingTag"
+
+```
+
+To see all other options:
+
+```
+changelog generate --help
 ```
 
 ## Config Options Explained

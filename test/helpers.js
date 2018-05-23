@@ -142,15 +142,6 @@ describe('Helpers', () => {
                 tag2: '321'
             });
         });
-        //
-        // it('sets the tag2 to HEAD if it\'s not given', () =>{
-        //     const subject = Helpers.setTags(['123']);
-        //
-        //     subject.should.deep.equal({
-        //         tag1: '123',
-        //         tag2: 'HEAD'
-        //     });
-        // });
 
         it('throws an error if no tags are given', () =>{
             const subject = function() {
