@@ -1,6 +1,8 @@
-# Github Changelog Generator
+# Changelogger
 
-A generator for your release notes.
+A github changelog generator for your release notes.
+
+[![Build Status](https://travis-ci.org/xogroup/changelogger.svg?branch=master)](https://travis-ci.org/xogroup/changelogger)
 
 ## First Step
 
