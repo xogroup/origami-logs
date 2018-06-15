@@ -1,0 +1,20 @@
+{
+  "github":{
+    "apiUrl": "https://git.somedomain.com/api/v3",
+    "token": "123456",
+    "repository": "Organization/repo-name"
+  },
+  "aliases": {
+    "enhancement": [
+      "feature"
+    ]
+  },
+  "extraLabels": {
+    "chore": "Chores Completed:"
+  },
+  "extras": {
+    "pivotal":{
+      "boardID": "1234567"
+    }
+  }
+}

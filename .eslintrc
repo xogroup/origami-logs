@@ -1,0 +1,9 @@
+{
+    "plugins": [
+        "xogroup"
+    ],
+    "extends": [
+        "plugin:xogroup/recommended",
+        "plugin:xogroup/hapijs"
+    ]
+}
