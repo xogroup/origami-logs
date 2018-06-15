@@ -6,9 +6,38 @@ A github changelog generator for your release notes.
 
 ## First Step
 
-Create a file named `.changelog-generator-config.json` in the root of your project
+Create a file named `.changelog-generator-config.json` in the root of your project.
 
 The file should look something like this:
+
+```
+{
+  "github":{
+    "apiUrl": "https://git.somedomain.com/api/v3",
+    "token": "123456",
+    "repository": "Organization/repo-name"
+  }
+}
+```
+
+## How to use
+
+TO RUN:
+
+```
+changelog generate --tags "startingTag,endingTag"
+
+```
+
+To see all other options:
+
+```
+changelog generate --help
+```
+
+## Config Options Explained
+
+If you wish to add other config options it might look like this:
 
 ```
 {
@@ -33,24 +62,7 @@ The file should look something like this:
 }
 ```
 
-## How to use
-
-TO RUN:
-
-```
-changelog generate --tags "startingTag,endingTag"
-
-```
-
-To see all other options:
-
-```
-changelog generate --help
-```
-
-## Config Options Explained
-
-* `github`: The info about the given repository you wish to get the changelog formatForMarkdown
+* `github`: *REQUIRED* The info about the given repository you wish to get the changelog format for markdown
 * `aliases`: This is to be used if you want to use your own custom labels but still conform to the enhance/bug format.
   * IE: You might have a feature label but still want it to show `Features Implemented` on the changelog.
 * `extraLabels`: Define your own custom labels and changelog headings
