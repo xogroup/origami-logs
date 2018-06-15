@@ -1,6 +1,6 @@
 <p align=center><img src="logo.png" width="400"></p>
 
-# Changelogger
+# Origami Logs
 
 A github changelog generator for your release notes.
 
