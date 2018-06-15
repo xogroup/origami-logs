@@ -1,4 +1,4 @@
-<p align=center><img src="logo.png" width="400"></p>
+<p align=center><img src="https://s15.postimg.cc/dk2ezad5n/logo.png" width="400"></p>
 
 # Origami Logs
 
