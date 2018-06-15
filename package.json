@@ -1,16 +1,15 @@
 {
-  "name": "github_changelog_generator",
+  "name": "changelogger",
   "version": "1.0.0",
   "description": "",
   "keywords": [
-    "github_changelog_generator",
+    "changelogger",
     "npm",
     "zumata"
   ],
   "homepage": "https://github.com/xogroup",
   "license": "MIT",
-  "author": "Nephtali Rodriguez / XO Group",
-  "main": "index.js",
+  "main": "cli.js",
   "repository": {
     "type": "git",
     "url": ""
@@ -26,7 +25,7 @@
   },
   "dependencies": {
     "bluebird": "3.5.0",
-    "caporal": "0.7.0",
+    "caporal": "0.10.0",
     "git-rev-sync": "1.9.1",
     "github-api": "3.0.0",
     "require-dir": "0.3.2"
@@ -47,5 +46,7 @@
   "bin": {
     "changelog": "./cli.js"
   },
-  "private": true
+  "publishConfig": {
+    "access": "public"
+  }
 }
