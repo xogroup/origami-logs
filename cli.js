@@ -13,7 +13,7 @@ const requireConfig = () => {
     try {
         const currentPath = path.resolve( '.' );
 
-        return require(`${currentPath}/.changelog-generator-config.json`);
+        return require(`${currentPath}/.origami-logs-config.json`);
     } catch (e) {
         return false;
     }

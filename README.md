@@ -4,11 +4,11 @@
 
 A github changelog generator for your release notes.
 
-[![Build Status](https://travis-ci.org/xogroup/changelogger.svg?branch=master)](https://travis-ci.org/xogroup/changelogger)
+[![Build Status](https://travis-ci.org/xogroup/origami-logs.svg?branch=master)](https://travis-ci.org/xogroup/origami-logs)
 
 ## First Step
 
-Create a file named `.changelog-generator-config.json` in the root of your project.
+Create a file named `.origami-logs-config.json` in the root of your project.
 
 The file should look something like this:
 
