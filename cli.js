@@ -3,6 +3,7 @@
 'use strict';
 const prog = require('caporal');
 const Hoek = require('hoek');
+const path = require( 'path' );
 
 const githubClient = require('./lib/modules/github_client');
 const changelogGenerator = require('./lib/modules/changelog_generator');
@@ -10,7 +11,9 @@ const helpers = require('./lib/modules/helpers');
 
 const requireConfig = () => {
     try {
-        return require('./.changelog-generator-config.json');
+        const currentPath = path.resolve( '.' );
+
+        return require(`${currentPath}/.changelog-generator-config.json`);
     } catch (e) {
         return false;
     }
