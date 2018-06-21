@@ -8,7 +8,7 @@ const lab = exports.lab = script();
 const { describe, it, expect, before, after } = lab;
 let githubClient = require('../lib/modules/github_client');
 const changelogGenerator = require('../lib/modules/changelog_generator');
-const config = require('../.changelog-generator-config-template');
+const config = require('../.origami-logs-config-template');
 
 assertions.should();
 

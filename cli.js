@@ -3,6 +3,7 @@
 'use strict';
 const prog = require('caporal');
 const Hoek = require('hoek');
+const path = require( 'path' );
 
 const githubClient = require('./lib/modules/github_client');
 const changelogGenerator = require('./lib/modules/changelog_generator');
@@ -10,7 +11,9 @@ const helpers = require('./lib/modules/helpers');
 
 const requireConfig = () => {
     try {
-        return require('./.changelog-generator-config.json');
+        const currentPath = path.resolve( '.' );
+
+        return require(`${currentPath}/.origami-logs-config.json`);
     } catch (e) {
         return false;
     }
@@ -43,7 +46,7 @@ prog
                 await changelogGenerator.call(context, client, tags);
                 logger.info('Changelog Generated as CHANGELOG.md');
             } else {
-                throw new TypeError('Error: Config options are not set in command line or in .changelog-generator-config.json. See --help to learn what you can send.');
+                throw new TypeError('Error: Config options are not set in command line or in .origami-logs-config.json. See --help to learn what you can send.');
             }
         } catch (e) {
             logger.error(e.message);
