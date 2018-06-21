@@ -14,5 +14,5 @@ dist/**/__tests__/
 logs/**/[^.]*
 node_modules/
 out/
-.changelog-generator-config.json
+.origami-logs-config.json
 CHANGELOG.md

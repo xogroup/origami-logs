@@ -7,7 +7,7 @@ const { describe, it, after, expect } = lab;
 const Hoek = require('hoek');
 const Promise = require('bluebird');
 const Helpers = require('../lib/modules/helpers');
-const config = require('../.changelog-generator-config-template');
+const config = require('../.origami-logs-config-template');
 assertions.should();
 
 describe('Helpers', () => {
