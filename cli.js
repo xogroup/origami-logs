@@ -39,7 +39,7 @@ prog
 
         return tags.split(',');
     })
-    .option('--release <pre>', 'Adds the given generated changelog to the release. If pre is passed, will mark as a pre-release')
+    .option('--release <pre>', 'Adds the given generated changelog to the release. If "pre" is passed, will mark as a pre-release')
     .action(async(args, options, logger) => {
         try {
             const config = requireConfig();
@@ -68,7 +68,8 @@ prog
 
             if (options.release) {
                 const release = await addToRelease.call(context, changelog, options.release);
-                this.logger.color('green').bold().log(`RELEASE GENERATED FOR ${release.data.html_url}`);
+
+                logger.color('green').bold().log(`RELEASE GENERATED FOR ${release.data.html_url}`);
             }
         } catch (e) {
             logger.error(e.message);
