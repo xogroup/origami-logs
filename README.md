@@ -6,6 +6,10 @@ A github changelog generator for your release notes.
 
 [![Build Status](https://travis-ci.org/xogroup/origami-logs.svg?branch=master)](https://travis-ci.org/xogroup/origami-logs)
 
+## Installation
+
+```npm i -g origami-logs```
+
 ## First Step
 
 Create a file named `.origami-logs-config.json` in the root of your project.
