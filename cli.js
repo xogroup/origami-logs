@@ -5,6 +5,7 @@ const prog = require('caporal');
 const Hoek = require('hoek');
 const path = require( 'path' );
 const colorLogger = require('node-color-log');
+const version = require('./package.json').version;
 
 const {
     githubClient,
@@ -27,7 +28,7 @@ const requireConfig = () => {
 };
 
 prog
-    .version('1.0.0')
+    .version(version)
     .logger(colorLogger)
     .command('generate', 'Generates the changelog')
     .option('--github_api <apiUrl>', 'Github API URL (Used with Github Enterprise)')
