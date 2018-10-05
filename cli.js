@@ -67,7 +67,8 @@ prog
             }
 
             if (options.release) {
-                await addToRelease.call(context, changelog, options.release);
+                const release = await addToRelease.call(context, changelog, options.release);
+                this.logger.color('green').bold().log(`RELEASE GENERATED FOR ${release.data.html_url}`);
             }
         } catch (e) {
             logger.error(e.message);
