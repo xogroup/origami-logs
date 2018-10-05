@@ -6,16 +6,13 @@ const Hoek = require('hoek');
 const path = require( 'path' );
 const colorLogger = require('node-color-log');
 const version = require('./package.json').version;
+const helpers = require('./lib/modules/helpers');
 
 const {
     githubClient,
     changelogGenerator,
     addToRelease
 } = require('./lib/modules');
-// const githubClient = require('./lib/modules/github-client');
-// const changelogGenerator = require('./lib/modules/changelog-generator');
-// const addToRelease = require('./lib/modules/add-to-release');
-const helpers = require('./lib/modules/helpers');
 
 const requireConfig = () => {
     try {
