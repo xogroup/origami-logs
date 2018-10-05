@@ -76,3 +76,12 @@ If you wish to add other config options it might look like this:
   * `pivotal`: Supports linking pivotal stories in your change log assuming commits conform to the format:
     `[#STORY_ID_HERE] Commit Message here`
     * `boardID`: Pivotal Board ID (Found at the end of the url such as `https://www.pivotaltracker.com/n/projects/ID-HERE`)
+    
+    
+    
+## Development
+
+To test locally run
+```
+node cli.js generate --tags "TAG1,TAG2"
+```
