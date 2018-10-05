@@ -42,46 +42,48 @@ describe('Integration', () =>{
             message: '[#1234567] Adds a fix to properly return the internal mediaSummary … (#31)\n\n* [#153019762] Adds a fix to properly return the internal mediaSummary structure for Limited vendors\r\n\r\n* Changed let to const in test'
         }};
     githubClient = {
-        getRepo: function() {
-            return {
-                compareBranches: function() {
-                    return {
-                        data: {
-                            commits: [sampleCommit]
-                        }
-                    };
-                },
-                getPullRequest: function() {
-                    return {
-                        data: {
-                            user: {
-                                url  : 'github.com/justneph',
-                                login: 'justneph'
-                            },
-                            url: 'github.com/project/1234567'
-                        }
-                    };
-                }
-            };
+        repos: {
+            compareCommits: function() {
+                return {
+                    data: {
+                        commits: [sampleCommit]
+                    }
+                };
+            }
         },
-        search: function() {
-            return {
-                forIssues: function() {
-                    return {
-                        data: [{
+        pullRequests: {
+            get: function() {
+                return Promise.resolve({
+                    data: {
+                        url : 'https://www.github.com/someOrg/justneph/pull/31',
+                        user: {
+                            login: 'nrodriguez',
+                            url  : 'https://api.github.com/users/nrodriguez'
+                        }
+                    }
+                });
+            }
+        },
+        search: {
+            issues: function() {
+                return {
+                    data: {
+                        total_count: 1,
+                        items      : [{
                             name  : 'TEST',
-                            labels: [
-                                { name: 'enhancement' }
-                            ]
+                            number: '1234',
+                            labels: [{
+                                name: 'enhancement'
+                            }]
                         }]
-                    };
-                }
-            };
+                    }
+                };
+            }
         }
     };
 
     it('generates the CHANGELOG.md file with the expected changelog', async() =>{
-        const expected = '\n\n**Features Implemented:**\n* [[#1234567]](https://www.pivotaltracker.com/n/projects/1234567/stories/1234567) Adds a fix to properly return the internal mediaSummary … [(#31)](github.com/project/1234567) [justneph](github.com/justneph)\n';
+        const expected = '**Features Implemented:**\n* [[#1234567]](https://www.pivotaltracker.com/n/projects/1234567/stories/1234567) Adds a fix to properly return the internal mediaSummary … [(#31)](https://www.github.com/someOrg/justneph/pull/31) [nrodriguez](https://api.github.com/users/nrodriguez)\n';
         await changelogGenerator.call(context, githubClient, ['v1.2.1', 'HEAD']);
         expect(fs.writeFileSync.called).to.be.true;
         expect(fs.writeFileSync.lastArg).to.equal(expected);
