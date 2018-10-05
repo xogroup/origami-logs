@@ -24,6 +24,7 @@
     "generate": "node src/index.js generate"
   },
   "dependencies": {
+    "@octokit/rest": "15.12.1",
     "bluebird": "3.5.0",
     "caporal": "0.10.0",
     "debug": "4.0.0",

@@ -12,20 +12,23 @@ assertions.should();
 
 describe('Helpers', () => {
     const context = {
-        repo: {
-            getPullRequest: function() {
-                return Promise.resolve({
-                    data: {
-                        url : 'google.com',
-                        user: {
-                            login: 'nrodriguez',
-                            url  : 'https://api.github.com/users/nrodriguez'
+        client: {
+            pullRequests: {
+                get: function() {
+                    return Promise.resolve({
+                        data: {
+                            url : 'google.com',
+                            user: {
+                                login: 'nrodriguez',
+                                url  : 'https://api.github.com/users/nrodriguez'
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         },
-        config: config
+        ownerRepo: { owner: 'JustNeph', repo: 'SampleRepo'},
+        config   : config
     };
 
     describe('hydrateCommitEntry()', () => {
@@ -127,7 +130,7 @@ describe('Helpers', () => {
     describe('formatForMarkdown()', () =>{
         it('formats the log object to markdown', () => {
             const input = { 'Features Implemented:': ['Some commit']};
-            const expected = '\n\n**Features Implemented:**\n* Some commit\n';
+            const expected = '**Features Implemented:**\n* Some commit\n';
 
             Helpers.formatForMarkdown.call(context, input).should.deep.equal(expected);
         });
