@@ -62,6 +62,9 @@ describe('Integration', () =>{
                 },
                 editRelease: function() {
                     return true;
+                },
+                createRelease: function() {
+                    return true;
                 }
             },
             pullRequests: {
@@ -117,25 +120,45 @@ describe('Integration', () =>{
         expect(fs.writeFileSync.lastArg).to.equal(expected);
     });
 
-    it('pushes the releases notes to github', async() =>{
-        sinon.spy(githubClient.repos, 'getReleaseByTag');
-        sinon.spy(githubClient.repos, 'editRelease');
+    describe('Github Release', () => {
+        it('edits the if it has been created', async() =>{
+            sinon.spy(githubClient.repos, 'getReleaseByTag');
+            sinon.spy(githubClient.repos, 'editRelease');
 
-        const changelog = '**Features Implemented:**\n* [[#1234567]](https://www.pivotaltracker.com/n/projects/1234567/stories/1234567) Adds a fix to properly return the internal mediaSummary … [(#31)](https://www.github.com/someOrg/justneph/pull/31) [nrodriguez](https://api.github.com/users/nrodriguez)\n';
-        await addToRelease.call(context, changelog, 'test');
+            const changelog = '**Features Implemented:**\n* [[#1234567]](https://www.pivotaltracker.com/n/projects/1234567/stories/1234567) Adds a fix to properly return the internal mediaSummary … [(#31)](https://www.github.com/someOrg/justneph/pull/31) [nrodriguez](https://api.github.com/users/nrodriguez)\n';
+            await addToRelease.call(context, changelog, 'test');
 
-        expect(githubClient.repos.getReleaseByTag.getCall(0).lastArg).to.deep.equal({
-            owner: 'Organization',
-            repo : 'repo-name',
-            tag  : 'v2.0.0'
+            expect(githubClient.repos.getReleaseByTag.getCall(0).lastArg).to.deep.equal({
+                owner: 'Organization',
+                repo : 'repo-name',
+                tag  : 'v2.0.0'
+            });
+
+            expect(githubClient.repos.editRelease.getCall(0).lastArg).to.deep.equal({
+                owner     : 'Organization',
+                repo      : 'repo-name',
+                release_id: '12345',
+                body      : changelog,
+                prerelease: false
+            });
         });
 
-        expect(githubClient.repos.editRelease.getCall(0).lastArg).to.deep.equal({
-            owner     : 'Organization',
-            repo      : 'repo-name',
-            release_id: '12345',
-            body      : changelog,
-            prerelease: false
+        it('creates a new one the if it has not been created', async() => {
+            sinon.replace(githubClient.repos, 'getReleaseByTag', () => {
+                throw {status: 'Not Found'};
+            });
+            sinon.spy(githubClient.repos, 'createRelease');
+
+            const changelog = '**Features Implemented:**\n* [[#1234567]](https://www.pivotaltracker.com/n/projects/1234567/stories/1234567) Adds a fix to properly return the internal mediaSummary … [(#31)](https://www.github.com/someOrg/justneph/pull/31) [nrodriguez](https://api.github.com/users/nrodriguez)\n';
+            await addToRelease.call(context, changelog, 'test');
+
+            expect(githubClient.repos.createRelease.getCall(0).lastArg).to.deep.equal({
+                owner     : 'Organization',
+                repo      : 'repo-name',
+                tag_name  : 'v2.0.0',
+                body      : changelog,
+                prerelease: false
+            });
         });
     });
 });
