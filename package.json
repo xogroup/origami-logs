@@ -28,10 +28,9 @@
     "bluebird": "3.5.0",
     "caporal": "0.10.0",
     "debug": "4.0.0",
-    "git-rev-sync": "1.9.1",
-    "github-api": "3.0.0",
     "hoek": "5.0.3",
     "lodash": "4.17.10",
+    "node-color-log": "2.1.2",
     "require-dir": "0.3.2"
   },
   "devDependencies": {
@@ -41,7 +40,7 @@
     "eslint-plugin-xogroup": "2.1.0",
     "lab": "15.4.1",
     "nsp": "2.8.1",
-    "sinon": "5.0.3"
+    "sinon": "6.3.5"
   },
   "engines": {
     "node": ">= 6.9.1",
