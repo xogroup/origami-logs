@@ -24,12 +24,31 @@ const requireConfig = () => {
     }
 };
 
+const setupConfig = (options) => {
+    const configFile = requireConfig();
+
+    if (!configFile) {
+        const token = Hoek.reach(options, 'token');
+        const githubApi = Hoek.reach(options, 'githubApi');
+        const repository = Hoek.reach(options, 'repo');
+
+        return {
+            token,
+            githubApi,
+            repository
+        };
+    }
+
+    return configFile;
+};
+
 prog
     .version(version)
     .logger(colorLogger)
     .command('generate', 'Generates the changelog')
     .option('--github_api <apiUrl>', 'Github API URL (Used with Github Enterprise)')
     .option('--token <githubToken>', 'Github OAUTH Token')
+    .option('--repo <repo>', 'Github Org/Repo "org/repo"')
     .option('--tags <tag1>,<tag2>', 'Gets the changelog between the tags', function(tags) {
         if (tags === true) {
             return [];
@@ -40,16 +59,14 @@ prog
     .option('--release <pre>', 'Adds the given generated changelog to the release. If "pre" is passed, will mark as a pre-release')
     .action(async(args, options, logger) => {
         try {
-            const config = requireConfig();
-            const token = Hoek.reach(options, 'token') || Hoek.reach(config, 'github.token');
-            const githubApi = Hoek.reach(options, 'githubApi') || Hoek.reach(config, 'github.apiUrl') || 'https://api.github.com';
+            const config = setupConfig(options);
             const tags = helpers.setTags(options.tags);
             let context;
             let client;
             let changelog;
 
-            if (config || token && githubApi) {
-                client = githubClient(githubApi, token);
+            if (config.token && config.githubApi && config.repo) {
+                client = githubClient(config.githubApi, config.token);
 
                 context = {
                     config,
