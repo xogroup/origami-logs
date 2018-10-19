@@ -26,12 +26,11 @@ const requireConfig = () => {
 
 const setupConfig = (options) => {
     const configFile = requireConfig();
+    const token = Hoek.reach(options, 'token') || Hoek.reach(configFile, 'github.token');
+    const githubApi = Hoek.reach(options, 'githubApi') || Hoek.reach(configFile, 'github.apiUrl') || 'https://api.github.com';
+    const repository = Hoek.reach(options, 'repo') || Hoek.reach(configFile, 'github.respository');
 
     if (!configFile) {
-        const token = Hoek.reach(options, 'token');
-        const githubApi = Hoek.reach(options, 'githubApi');
-        const repository = Hoek.reach(options, 'repo');
-
         return {
             token,
             githubApi,
@@ -39,7 +38,7 @@ const setupConfig = (options) => {
         };
     }
 
-    return configFile;
+    return Hoek.merge(configFile, {token, githubApi, repository});
 };
 
 prog
