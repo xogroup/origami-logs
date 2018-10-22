@@ -27,18 +27,26 @@ const requireConfig = () => {
 const setupConfig = (options) => {
     const configFile = requireConfig();
     const token = Hoek.reach(options, 'token') || Hoek.reach(configFile, 'github.token');
-    const githubApi = Hoek.reach(options, 'githubApi') || Hoek.reach(configFile, 'github.apiUrl') || 'https://api.github.com';
-    const repository = Hoek.reach(options, 'repo') || Hoek.reach(configFile, 'github.respository');
+    const apiUrl = Hoek.reach(options, 'githubApi') || Hoek.reach(configFile, 'github.apiUrl') || 'https://api.github.com';
+    const repository = Hoek.reach(options, 'repo') || Hoek.reach(configFile, 'github.repository');
 
     if (!configFile) {
         return {
-            token,
-            githubApi,
-            repository
+            github: {
+                apiUrl,
+                token,
+                repository
+            }
         };
     }
 
-    return Hoek.merge(configFile, {token, githubApi, repository});
+    return Hoek.merge(configFile, {
+        github: {
+            apiUrl,
+            token,
+            repository
+        }
+    });
 };
 
 prog
@@ -47,7 +55,7 @@ prog
     .command('generate', 'Generates the changelog')
     .option('--github_api <apiUrl>', 'Github API URL (Used with Github Enterprise)')
     .option('--token <githubToken>', 'Github OAUTH Token')
-    .option('--repo <repo>', 'Github Org/Repo "org/repo"')
+    .option('--repo <repository>', 'Github Org/Repo "org/repo"')
     .option('--tags <tag1>,<tag2>', 'Gets the changelog between the tags', function(tags) {
         if (tags === true) {
             return [];
@@ -64,8 +72,8 @@ prog
             let client;
             let changelog;
 
-            if (config.token && config.githubApi && config.repo) {
-                client = githubClient(config.githubApi, config.token);
+            if (config.github.token && config.github.apiUrl && config.github.repository) {
+                client = githubClient(config.github.apiUrl, config.github.token);
 
                 context = {
                     config,
