@@ -7,7 +7,7 @@
     "changelog generator",
     "changelogs"
   ],
-  "homepage": "https://github.com/xogroup",
+  "homepage": "https://github.com/xogroup/origami-logs",
   "license": "MIT",
   "main": "cli.js",
   "repository": {
