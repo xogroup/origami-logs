@@ -63,7 +63,7 @@ prog
 
         return tags.split(',');
     })
-    .option('--release <pre>', 'Adds the given generated changelog to the release. If "pre" is passed, will mark as a pre-release')
+    .option('--release <pre>', 'Adds the givenmmmm generated changelog to the release. If "pre" is passed, will mark as a pre-release')
     .action(async(args, options, logger) => {
         try {
             const config = setupConfig(options);
