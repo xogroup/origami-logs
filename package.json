@@ -21,7 +21,9 @@
     "lint": "node_modules/.bin/eslint --fix lib/ test/",
     "check": "npm run lint && npm run nsp",
     "nsp": "nsp check",
-    "generate": "node src/index.js generate"
+    "generate": "node src/index.js generate",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "@octokit/rest": "15.12.1",
@@ -31,7 +33,8 @@
     "hoek": "5.0.3",
     "lodash": "4.17.11",
     "node-color-log": "2.1.2",
-    "require-dir": "0.3.2"
+    "require-dir": "0.3.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "chai": "4.1.2",
@@ -51,5 +54,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
