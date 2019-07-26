@@ -24,23 +24,23 @@
     "generate": "node src/index.js generate"
   },
   "dependencies": {
-    "@octokit/rest": "15.12.1",
-    "bluebird": "3.5.0",
-    "caporal": "0.10.0",
-    "debug": "4.0.0",
-    "hoek": "5.0.3",
-    "lodash": "4.17.11",
-    "node-color-log": "2.1.2",
+    "@hapi/hoek": "8.1.0",
+    "@octokit/rest": "16.28.7",
+    "bluebird": "3.5.5",
+    "caporal": "1.2.0",
+    "debug": "4.1.1",
+    "lodash": "4.17.15",
+    "node-color-log": "2.2.0",
     "require-dir": "0.3.2"
   },
   "devDependencies": {
-    "chai": "4.1.2",
-    "eslint": "4.14.0",
+    "@hapi/lab": "19.1.0",
+    "chai": "4.2.0",
+    "eslint": "6.1.0",
     "eslint-config-xogroup": "1.0.0",
-    "eslint-plugin-xogroup": "2.1.0",
-    "lab": "15.4.1",
-    "nsp": "2.8.1",
-    "sinon": "6.3.5"
+    "eslint-plugin-xogroup": "2.3.1",
+    "nsp": "3.2.1",
+    "sinon": "7.3.2"
   },
   "engines": {
     "node": ">= 6.9.1",
