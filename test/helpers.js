@@ -1,10 +1,10 @@
 'use strict';
 
-const Lab = require('lab');
+const Lab = require('@hapi/lab');
 const { script, assertions } = Lab;
 const lab = exports.lab = script();
 const { describe, it, after, expect } = lab;
-const Hoek = require('hoek');
+const Hoek = require('@hapi/hoek');
 const Promise = require('bluebird');
 const Helpers = require('../lib/modules/helpers');
 const config = require('../.origami-logs-config-template');

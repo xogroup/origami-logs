@@ -1,6 +1,6 @@
 'use strict';
 
-const Lab = require('lab');
+const Lab = require('@hapi/lab');
 const fs = require('fs');
 const sinon = require('sinon');
 const logger = require('node-color-log');
