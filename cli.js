@@ -2,7 +2,7 @@
 
 'use strict';
 const prog = require('caporal');
-const Hoek = require('hoek');
+const Hoek = require('@hapi/hoek');
 const path = require( 'path' );
 const colorLogger = require('node-color-log');
 const version = require('./package.json').version;
