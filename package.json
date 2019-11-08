@@ -21,7 +21,9 @@
     "lint": "node_modules/.bin/eslint --fix lib/ test/",
     "check": "npm run lint && npm run nsp",
     "nsp": "nsp check",
-    "generate": "node src/index.js generate"
+    "generate": "node src/index.js generate",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "@hapi/hoek": "8.1.0",
@@ -31,7 +33,8 @@
     "debug": "4.1.1",
     "lodash": "4.17.15",
     "node-color-log": "2.2.0",
-    "require-dir": "0.3.2"
+    "require-dir": "0.3.2",
+    "snyk": "^1.199.2"
   },
   "devDependencies": {
     "@hapi/lab": "19.1.0",
@@ -51,5 +54,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
