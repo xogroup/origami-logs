@@ -24,7 +24,7 @@
     "generate": "node src/index.js generate"
   },
   "dependencies": {
-    "@hapi/hoek": "8.1.0",
+    "@hapi/hoek": "8.5.1",
     "@octokit/rest": "16.28.7",
     "bluebird": "3.5.5",
     "caporal": "1.2.0",
